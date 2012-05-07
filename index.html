@@ -1,0 +1,58 @@
+<html>
+<head>
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+<link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+<link href="/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+
+<script>
+var manifestUrl = 'http://localhost:3000/manifest.webapp';
+var app = navigator.mozApps;
+
+function checkInstalled() {
+    var request = app.getSelf();
+    request.onsuccess = function() {
+        if(request.result) { //installed
+            console.log('installed');
+            document.getElementById('installmsg').style.display='none';
+        } else { //not installed
+            console.log('not installed');
+        }
+    };
+}
+
+function install(cb) {
+    var request = app.install(manifestUrl);
+    request.onsuccess = function() {
+        alert('installed');
+    };
+
+    request.onerror = function() {
+        alert('Not installed');
+    }
+}
+</script>
+
+</head>
+<body onload="checkInstalled()">
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#">Test app</a>
+          <div class="nav-collapse">
+            <ul class="nav nav-pills pull-right">
+                <li class="active"><a href="upload" class="btn btn-small btn-info"><i class="icon-music icon-white"></i></a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+    <div class="content" >
+        <div id="installmsg" style="padding: 5px" class="label">This app is not installed to your phone yet. Install it? <a href="#" class="btni btn-mini btn-info" onclick="install()";>Yes</a></div>
+    </div>
+</body>
+</html>
